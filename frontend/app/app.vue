@@ -102,13 +102,28 @@ function generateId(): number {
 }
 
 const addData = () => {
-  newData.value.id = generateId();
-  rows.value.push(newData.value);
+  const id = newData.value.id;
+  if (id == 0) {
+    newData.value.id = generateId();
+    rows.value.push(newData.value);
+  } else {
+    const index = rows.value.findIndex((u: any) => u.id === id);
+    if (index != -1) {
+      rows.value[index] = newData.value;
+    }
+  }
+  // reset data
+  newData.value = {
+    id: 0,
+    name: null,
+    address: null,
+  };
 };
 
 const editRow = (row: any) => {
   console.log("Edit row:", row);
   // di sini bisa buka modal form edit
+  newData.value = row;
 };
 
 const deleteRow = (row: any) => {
