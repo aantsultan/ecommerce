@@ -20,9 +20,16 @@
         v-model="newData.name"
         type="text"
         placeholder="Name"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        :class="[
+          'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+          error.name ? 'border-red-500 ring-red-500' : 'border-gray-300',
+        ]"
       />
+      <span v-if="error.name" class="absolute text-red-500 text-sm mt-1">{{
+        error.name
+      }}</span>
     </div>
+    <br />
     <div>
       <label for="name" class="block text-sm font-medium text-gray-700"
         >Address</label
@@ -31,9 +38,17 @@
         v-model="newData.address"
         type="text"
         placeholder="Address"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        :class="[
+          'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+          error.address ? 'border-red-500 ring-red-500' : 'border-gray-300',
+        ]"
       />
+      <span v-if="error.address" class="absolute text-red-500 text-sm mt-1">{{
+        error.address
+      }}</span>
     </div>
+
+    <br />
 
     <button
       type="submit"
@@ -101,7 +116,26 @@ function generateId(): number {
   return Math.max(...rows.value.map((u: any) => u.id ?? 0)) + 1;
 }
 
+const error = ref<{ name?: string; address?: string }>({});
 const addOrUpdateData = () => {
+  let errors = 0;
+  error.value = {};
+  if (!newData.value.name) {
+    error.value.name = "Nama tidak boleh kosong";
+    errors++;
+  }
+
+  if (!newData.value.address) {
+    error.value.address = "Alamat tidak boleh kosong";
+    errors++;
+  }
+
+  if (errors > 0) {
+    return;
+  }
+
+  error.value = {};
+
   const id = newData.value.id;
   if (id == 0) {
     newData.value.id = generateId();
