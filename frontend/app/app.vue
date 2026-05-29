@@ -9,7 +9,7 @@
     {{ loginData }}
   </div> -->
   <form
-    @submit.prevent="addData"
+    @submit.prevent="addOrUpdateData"
     class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4"
   >
     <div>
@@ -101,7 +101,7 @@ function generateId(): number {
   return Math.max(...rows.value.map((u: any) => u.id ?? 0)) + 1;
 }
 
-const addData = () => {
+const addOrUpdateData = () => {
   const id = newData.value.id;
   if (id == 0) {
     newData.value.id = generateId();
@@ -122,12 +122,11 @@ const addData = () => {
 
 const editRow = (row: any) => {
   console.log("Edit row:", row);
-  // di sini bisa buka modal form edit
   newData.value = row;
 };
 
 const deleteRow = (row: any) => {
   console.log("Delete row:", row);
-  // rows.value = rows.value.filter((r) => r.id !== row.id);
+  rows.value = rows.value.filter((r: any) => r.id !== row.id);
 };
 </script>
