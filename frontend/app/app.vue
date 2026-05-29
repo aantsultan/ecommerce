@@ -3,7 +3,7 @@
     <h5 class="text-3xl font-bold underline">Simple CRUD</h5>
   </div>
 
-  <br/>
+  <br />
   <!-- <div v-if="!loginData">No Data</div>
   <div v-else>
     {{ loginData }}
@@ -12,17 +12,6 @@
     @submit.prevent="addData"
     class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4"
   >
-    <div>
-      <label for="name" class="block text-sm font-medium text-gray-700"
-        >ID</label
-      >
-      <input
-        v-model="newData.id"
-        type="number"
-        placeholder="ID"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-      />
-    </div>
     <div>
       <label for="name" class="block text-sm font-medium text-gray-700"
         >Name</label
@@ -57,9 +46,24 @@
   <br />
 
   <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
-    <vue-good-table
-      :columns="columns()"
-      :rows="rows"/>
+    <vue-good-table :columns="columns()" :rows="rows">
+      <template #table-row="props">
+        <span v-if="props.column.field === 'actions'">
+          <button
+            class="px-2 py-1 bg-blue-500 text-white rounded mr-2"
+            @click="editRow(props.row)"
+          >
+            Edit
+          </button>
+          <button
+            class="px-2 py-1 bg-red-500 text-white rounded"
+            @click="deleteRow(props.row)"
+          >
+            Delete
+          </button>
+        </span>
+      </template>
+    </vue-good-table>
   </div>
 </template>
 
@@ -70,38 +74,45 @@ const loginData = await useFetch("/login", {
   baseURL: config.public.apiHost,
 });
 const newData = ref({
-  id: null,
+  id: 0,
   name: null,
   address: null,
 });
 
-const datas = ref([
-  {
-    id: null,
-    name: null,
-    address: null,
-  },
-]);
-
 const columns = () => [
   {
-    label: 'ID',
-    field: 'id',
-    type: 'number',
+    label: "Name",
+    field: "name",
   },
   {
-    label: 'Name',
-    field: 'name',
+    label: "Address",
+    field: "address",
   },
   {
-    label: 'Address',
-    field: 'address',
+    label: "Actions",
+    field: "actions",
   },
 ];
 
-const rows = ref([]);
+const rows = ref<any>([]);
+
+function generateId(): number {
+  if (rows.value.length === 0) return 1;
+  return Math.max(...rows.value.map((u: any) => u.id ?? 0)) + 1;
+}
 
 const addData = () => {
-  rows.value.push({ ...newData.value });
+  newData.value.id = generateId();
+  rows.value.push(newData.value);
+};
+
+const editRow = (row: any) => {
+  console.log("Edit row:", row);
+  // di sini bisa buka modal form edit
+};
+
+const deleteRow = (row: any) => {
+  console.log("Delete row:", row);
+  // rows.value = rows.value.filter((r) => r.id !== row.id);
 };
 </script>
