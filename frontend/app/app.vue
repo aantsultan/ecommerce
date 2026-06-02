@@ -80,10 +80,17 @@
       </template>
     </vue-good-table>
   </div>
+
+  <div>
+    <Modal :show="isOpen" @close="isOpen = false"> </Modal>
+  </div>
 </template>
 
 <!-- Fetch Data -->
 <script setup lang="ts">
+// import
+const isOpen = ref(false);
+
 const config = useRuntimeConfig();
 const loginData = await useFetch("/login", {
   baseURL: config.public.apiHost,
@@ -161,6 +168,6 @@ const editRow = (row: any) => {
 
 const deleteRow = (row: any) => {
   console.log("Delete row:", row);
-  rows.value = rows.value.filter((r: any) => r.id !== row.id);
+  isOpen.value = true;
 };
 </script>

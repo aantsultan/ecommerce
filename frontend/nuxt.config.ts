@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   devServer: {
     port: 3001
   },
-  css: ['./app/assets/css/main.css'],
+  css: ['../assets/css/tailwind.css'],
   vite:{
     plugins:[
       tailwindcss(),
@@ -27,5 +27,10 @@ export default defineNuxtConfig({
   },
   plugins: [
     { src: 'plugins/vue-good-table', ssr: false }
-  ]
+  ],
+  components:[
+    {
+      path:'components', pathPrefix: false
+    }
+  ],
 })
