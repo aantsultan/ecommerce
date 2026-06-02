@@ -1,0 +1,1 @@
+insert into m_user (user_id, name, address) values (1, 'DUMMY01', 'ADDRESS01');
