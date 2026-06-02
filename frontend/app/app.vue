@@ -90,6 +90,9 @@
       @delete-id="deleteData"
     >
     </Modal>
+
+    <!-- Notifikasi -->
+    <Notification :message="notification.message" :type="notification.type" />
   </div>
 </template>
 
@@ -99,6 +102,7 @@
 const isOpen = ref(false);
 const name = ref("");
 const id = ref(0);
+const notification = ref({ message: "", type: "success" });
 
 const config = useRuntimeConfig();
 const loginData = await useFetch("/login", {
@@ -147,6 +151,11 @@ const addOrUpdateData = () => {
   }
 
   if (errors > 0) {
+    notification.value = {
+      message: "Data tidak boleh kosong !",
+      type: "error",
+    };
+    setTimeout(() => (notification.value.message = ""), 3000);
     return;
   }
 
@@ -168,6 +177,9 @@ const addOrUpdateData = () => {
     name: null,
     address: null,
   };
+
+  notification.value = { message: "Data berhasil disimpan!", type: "success" };
+  setTimeout(() => (notification.value.message = ""), 3000);
 };
 
 const editRow = (row: any) => {
@@ -186,5 +198,8 @@ const deleteData = () => {
   console.info("delete id", id.value);
   rows.value = rows.value.filter((r: any) => r.id !== id.value);
   isOpen.value = false;
+
+  notification.value = { message: "Data berhasil dihapus!", type: "success" };
+  setTimeout(() => (notification.value.message = ""), 3000);
 };
 </script>
