@@ -82,7 +82,7 @@
   </div>
 
   <div>
-    <Modal :show="isOpen" @close="isOpen = false"> </Modal>
+    <Modal :show="isOpen" :name="name" @close="isOpen = false"> </Modal>
   </div>
 </template>
 
@@ -90,6 +90,7 @@
 <script setup lang="ts">
 // import
 const isOpen = ref(false);
+const name = ref("");
 
 const config = useRuntimeConfig();
 const loginData = await useFetch("/login", {
@@ -169,5 +170,7 @@ const editRow = (row: any) => {
 const deleteRow = (row: any) => {
   console.log("Delete row:", row);
   isOpen.value = true;
+  name.value = row.name;
+  // rows.value = rows.value.filter((r: any) => r.id !== row.id);
 };
 </script>

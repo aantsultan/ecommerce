@@ -16,7 +16,9 @@
       <!-- Content -->
       <div class="px-4 py-3 border-b">
         <br />
-        <p class="text-gray-700">Do you want to delete this data ?</p>
+        <p class="text-gray-700">
+          Do you want to delete this data ({{ name }})?
+        </p>
         <br />
       </div>
 
@@ -34,6 +36,7 @@
 <script setup>
 defineProps({
   show: Boolean,
+  name: String,
 });
 const emit = defineEmits(["close"]);
 
