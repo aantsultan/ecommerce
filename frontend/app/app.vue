@@ -82,7 +82,14 @@
   </div>
 
   <div>
-    <Modal :show="isOpen" :name="name" @close="isOpen = false"> </Modal>
+    <Modal
+      :show="isOpen"
+      :name="name"
+      :id="id"
+      @close="isOpen = false"
+      @delete-id="deleteData"
+    >
+    </Modal>
   </div>
 </template>
 
@@ -91,6 +98,7 @@
 // import
 const isOpen = ref(false);
 const name = ref("");
+const id = ref(0);
 
 const config = useRuntimeConfig();
 const loginData = await useFetch("/login", {
@@ -171,6 +179,12 @@ const deleteRow = (row: any) => {
   console.log("Delete row:", row);
   isOpen.value = true;
   name.value = row.name;
-  // rows.value = rows.value.filter((r: any) => r.id !== row.id);
+  id.value = row.id;
+};
+
+const deleteData = () => {
+  console.info("delete id", id.value);
+  rows.value = rows.value.filter((r: any) => r.id !== id.value);
+  isOpen.value = false;
 };
 </script>

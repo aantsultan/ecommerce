@@ -27,21 +27,30 @@
         <button @click="close" class="px-4 py-2 bg-gray-600 rounded text-white">
           Close
         </button>
-        <button class="px-4 py-2 bg-red-600 rounded text-white">Delete</button>
+        <button
+          @click="deleteId"
+          class="px-4 py-2 bg-red-600 rounded text-white"
+        >
+          Delete
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
+const value = defineProps({
   show: Boolean,
   name: String,
 });
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "deleteId"]);
 
 function close() {
   emit("close");
+}
+
+function deleteId() {
+  emit("deleteId");
 }
 </script>
 
