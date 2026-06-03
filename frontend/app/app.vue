@@ -1,5 +1,10 @@
 <template>
   <div>
-    <Register />
+    <!-- <Register /> -->
+    <Header />
+    <HeroBanner />
+    <Categories />
+    <Product />
+    <Footer />
   </div>
 </template>
