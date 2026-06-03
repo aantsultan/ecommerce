@@ -61,24 +61,41 @@
   <br />
 
   <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
-    <vue-good-table :columns="columns()" :rows="rows">
-      <template #table-row="props">
-        <span v-if="props.column.field === 'actions'">
-          <button
-            class="px-2 py-1 bg-blue-500 text-white rounded mr-2"
-            @click="editRow(props.row)"
-          >
-            Edit
-          </button>
-          <button
-            class="px-2 py-1 bg-red-500 text-white rounded"
-            @click="deleteRow(props.row)"
-          >
-            Delete
-          </button>
-        </span>
-      </template>
-    </vue-good-table>
+    <ClientOnly>
+      <vue-good-table
+        :columns="columns()"
+        :rows="rows"
+        :totalRows="totalRows"
+        :pagination-options="{
+          enabled: true,
+          mode: 'records',
+          perPage: 10,
+        }"
+        :search-options="{ enabled: true }"
+        :sort-options="{ enabled: true }"
+        mode="remote"
+        @on-page-change="onPageChange"
+        @on-sort-change="onSortChange"
+        @on-search="onSearch"
+      >
+        <template #table-row="props">
+          <span v-if="props.column.field === 'actions'">
+            <button
+              class="px-2 py-1 bg-blue-500 text-white rounded mr-2"
+              @click="editRow(props.row)"
+            >
+              Edit
+            </button>
+            <button
+              class="px-2 py-1 bg-red-500 text-white rounded"
+              @click="deleteRow(props.row)"
+            >
+              Delete
+            </button>
+          </span>
+        </template>
+      </vue-good-table>
+    </ClientOnly>
   </div>
 
   <div>
@@ -136,25 +153,20 @@ const columns = () => [
   },
 ];
 
-// const response = useFetch<any>("/users", {
-//   baseURL: config.public.apiHost,
-//   method: "GET",
-// });
-// console.info("response: ", response.data.value?.data);
-// const rows = ref<any>([]);
-
 const rows = ref<any[]>([]);
 const totalRows = ref(0);
 
 // state for server queries
-const page = ref(1);
+const page = ref(0);
 const perPage = ref(10);
 const sort = ref<{ field: string; type: string } | null>(null);
 const searchTerm = ref("");
 
 // fetch data from API
 async function fetchData() {
-  const res = await useFetch<any>("/users", {
+  const response = await $fetch<any>("/users/paging", {
+    baseURL: config.public.apiHost,
+    method: "GET",
     query: {
       page: page.value,
       perPage: perPage.value,
@@ -163,11 +175,11 @@ async function fetchData() {
       search: searchTerm.value,
     },
   });
-  rows.value = res.data.value.data;
-  totalRows.value = res.data.value.total;
+  // console.info("response : ", response);
+  rows.value = response.data ?? [];
+  totalRows.value = response.total ?? 0;
 }
 
-// event handlers
 function onPageChange(params: any) {
   page.value = params.currentPage;
   perPage.value = params.perPage;
@@ -184,8 +196,9 @@ function onSearch(params: any) {
   fetchData();
 }
 
-// initial load
-fetchData();
+onMounted(() => {
+  fetchData();
+});
 
 function generateId(): number {
   if (rows.value.length === 0) return 1;
@@ -193,7 +206,7 @@ function generateId(): number {
 }
 
 const error = ref<{ name?: string; address?: string }>({});
-const addOrUpdateData = () => {
+const addOrUpdateData = async () => {
   let errors = 0;
   error.value = {};
   if (!newData.value.name) {
@@ -220,12 +233,31 @@ const addOrUpdateData = () => {
   const id = newData.value.id;
   if (id == 0) {
     newData.value.id = generateId();
-    rows.value.push(newData.value);
+
+    const res = await $fetch<any>("/users", {
+      method: "POST",
+      baseURL: config.public.apiHost,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newData.value),
+      onResponseError: () => {
+        saveFailed();
+      },
+    });
+    if (res.data === "OK") {
+      fetchData();
+      saveSuccess();
+    } else {
+      saveFailed();
+    }
+    // rows.value.push(newData.value);
   } else {
     const index = rows.value.findIndex((u: any) => u.id === id);
     if (index != -1) {
       rows.value[index] = newData.value;
     }
+    saveSuccess();
   }
   // reset data
   newData.value = {
@@ -233,9 +265,6 @@ const addOrUpdateData = () => {
     name: null,
     address: null,
   };
-
-  notification.value = { message: "Data berhasil disimpan!", type: "success" };
-  setTimeout(() => (notification.value.message = ""), 3000);
 };
 
 const editRow = (row: any) => {
@@ -258,4 +287,20 @@ const deleteData = () => {
   notification.value = { message: "Data berhasil dihapus!", type: "success" };
   setTimeout(() => (notification.value.message = ""), 3000);
 };
+
+function saveSuccess() {
+  notification.value = {
+    message: "Data berhasil disimpan!",
+    type: "success",
+  };
+  setTimeout(() => (notification.value.message = ""), 3000);
+}
+
+function saveFailed() {
+  notification.value = {
+    message: "Data gagal disimpan!",
+    type: "error",
+  };
+  setTimeout(() => (notification.value.message = ""), 3000);
+}
 </script>
