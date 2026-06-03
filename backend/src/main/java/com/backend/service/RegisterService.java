@@ -14,4 +14,6 @@ public interface RegisterService {
     String save(UserDto dto);
 
     String update(UserDto dto);
+
+    String delete(UserDto dto);
 }

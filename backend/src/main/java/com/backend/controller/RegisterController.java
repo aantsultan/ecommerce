@@ -2,6 +2,7 @@ package com.backend.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +47,13 @@ public class RegisterController {
     public ResponseEntity<Response<Object>> update(@RequestBody UserDto dto) {
         String response = services.register.update(dto);
         return ResponseEntity.ok().body(Response.builder().data(response).build());
+    }
+
+    @DeleteMapping("/users")
+    public ResponseEntity<Response<Object>> delete(@RequestBody UserDto dto) {
+        String response = services.register.delete(dto);
+        return ResponseEntity.ok().body(Response.builder().data(response).build());
+
     }
 
 }

@@ -71,4 +71,14 @@ public class RegisterServiceImpl implements RegisterService {
                 return "OK";
         }
 
+        @Override
+        public String delete(UserDto dto) {
+                User user = repositories.user.findById(dto.getId()).orElse(null);
+                if (user == null) {
+                        throw new RuntimeException("Data tidak ditemukan");
+                }
+                repositories.user.delete(user);
+                return "OK";
+        }
+
 }
