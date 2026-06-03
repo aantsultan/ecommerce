@@ -94,6 +94,12 @@
     <!-- Notifikasi -->
     <Notification :message="notification.message" :type="notification.type" />
   </div>
+  <!-- <div>
+    <div v-if="pending">Loading...</div>
+    <ul v-else>
+      <li v-for="user in users" :key="user.id">{{ user.name }}</li>
+    </ul>
+  </div> -->
 </template>
 
 <!-- Fetch Data -->
@@ -105,9 +111,10 @@ const id = ref(0);
 const notification = ref({ message: "", type: "success" });
 
 const config = useRuntimeConfig();
-const loginData = await useFetch("/login", {
-  baseURL: config.public.apiHost,
-});
+// const loginData = await useFetch("/login", {
+//   baseURL: config.public.apiHost,
+// });
+// console.info("loginData : ", loginData.data.value);
 const newData = ref({
   id: 0,
   name: null,
@@ -129,7 +136,56 @@ const columns = () => [
   },
 ];
 
-const rows = ref<any>([]);
+// const response = useFetch<any>("/users", {
+//   baseURL: config.public.apiHost,
+//   method: "GET",
+// });
+// console.info("response: ", response.data.value?.data);
+// const rows = ref<any>([]);
+
+const rows = ref<any[]>([]);
+const totalRows = ref(0);
+
+// state for server queries
+const page = ref(1);
+const perPage = ref(10);
+const sort = ref<{ field: string; type: string } | null>(null);
+const searchTerm = ref("");
+
+// fetch data from API
+async function fetchData() {
+  const res = await useFetch<any>("/users", {
+    query: {
+      page: page.value,
+      perPage: perPage.value,
+      sortField: sort.value?.field,
+      sortType: sort.value?.type,
+      search: searchTerm.value,
+    },
+  });
+  rows.value = res.data.value.data;
+  totalRows.value = res.data.value.total;
+}
+
+// event handlers
+function onPageChange(params: any) {
+  page.value = params.currentPage;
+  perPage.value = params.perPage;
+  fetchData();
+}
+
+function onSortChange(params: any) {
+  sort.value = params[0]; // vue-good-table sends array of sort objects
+  fetchData();
+}
+
+function onSearch(params: any) {
+  searchTerm.value = params.query;
+  fetchData();
+}
+
+// initial load
+fetchData();
 
 function generateId(): number {
   if (rows.value.length === 0) return 1;
