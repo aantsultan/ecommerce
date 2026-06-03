@@ -1,4 +1,9 @@
 <template>
+  <div>
+    <button @click="goBack" class="bg-gray-200 px-4 py-2 rounded">
+      ⬅ Kembali
+    </button>
+  </div>
   <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
     <h5 class="text-3xl font-bold underline">Simple CRUD</h5>
   </div>
@@ -370,5 +375,11 @@ function deleteFailed() {
     type: "error",
   };
   setTimeout(() => (notification.value.message = ""), 3000);
+}
+
+const router = useRouter();
+
+function goBack() {
+  router.back();
 }
 </script>

@@ -8,7 +8,7 @@
     />
     <nav>
       <button class="ml-4">Login</button>
-      <button class="ml-2">Daftar</button>
+      <NuxtLink to="/register" class="ml-2">Daftar</NuxtLink>
     </nav>
   </header>
 </template>

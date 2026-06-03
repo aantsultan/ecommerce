@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <Register /> -->
     <Header />
     <BannerCarousel />
     <HeroBanner />
