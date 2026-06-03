@@ -10,4 +10,6 @@ public interface RegisterService {
     List<UserDto> findAll();
 
     ResponsePaging<Object> paging(Integer page, Integer perPage, String sortField, String sortType, String search);
+
+    String save(UserDto dto);
 }
