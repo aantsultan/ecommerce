@@ -14,6 +14,7 @@ import com.backend.general.Services;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -38,6 +39,12 @@ public class RegisterController {
     @PostMapping("/users")
     public ResponseEntity<Response<Object>> save(@RequestBody UserDto dto) {
         String response = services.register.save(dto);
+        return ResponseEntity.ok().body(Response.builder().data(response).build());
+    }
+
+    @PutMapping("/users")
+    public ResponseEntity<Response<Object>> update(@RequestBody UserDto dto) {
+        String response = services.register.update(dto);
         return ResponseEntity.ok().body(Response.builder().data(response).build());
     }
 
