@@ -2,6 +2,7 @@
   <div>
     <!-- <Register /> -->
     <Header />
+    <BannerCarousel />
     <HeroBanner />
     <Categories />
     <Product />
