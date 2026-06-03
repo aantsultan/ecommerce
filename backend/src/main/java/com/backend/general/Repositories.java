@@ -10,10 +10,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Repositories {
 
-    private final UserRepository userRepository;
-
-    public UserRepository user() {
-        return userRepository;
-    }
+    public final UserRepository user;
 
 }

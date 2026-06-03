@@ -10,9 +10,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Services {
 
-    private final RegisterService register;
-
-    public RegisterService register() {
-        return register;
-    }
+    public final RegisterService register;
 }
