@@ -251,13 +251,30 @@ const addOrUpdateData = async () => {
     } else {
       saveFailed();
     }
-    // rows.value.push(newData.value);
   } else {
-    const index = rows.value.findIndex((u: any) => u.id === id);
-    if (index != -1) {
-      rows.value[index] = newData.value;
+    // const index = rows.value.findIndex((u: any) => u.id === id);
+    // if (index != -1) {
+    //   rows.value[index] = newData.value;
+    // }
+    // saveSuccess();
+
+    const res = await $fetch<any>("/users", {
+      method: "PUT",
+      baseURL: config.public.apiHost,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newData.value),
+      onResponseError: () => {
+        editFailed();
+      },
+    });
+    if (res.data === "OK") {
+      fetchData();
+      editSuccess();
+    } else {
+      editFailed();
     }
-    saveSuccess();
   }
   // reset data
   newData.value = {
@@ -299,6 +316,22 @@ function saveSuccess() {
 function saveFailed() {
   notification.value = {
     message: "Data gagal disimpan!",
+    type: "error",
+  };
+  setTimeout(() => (notification.value.message = ""), 3000);
+}
+
+function editSuccess() {
+  notification.value = {
+    message: "Data berhasil diubah!",
+    type: "success",
+  };
+  setTimeout(() => (notification.value.message = ""), 3000);
+}
+
+function editFailed() {
+  notification.value = {
+    message: "Data gagal diubah!",
     type: "error",
   };
   setTimeout(() => (notification.value.message = ""), 3000);
