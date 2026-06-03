@@ -296,13 +296,32 @@ const deleteRow = (row: any) => {
   id.value = row.id;
 };
 
-const deleteData = () => {
+const deleteData = async () => {
   console.info("delete id", id.value);
-  rows.value = rows.value.filter((r: any) => r.id !== id.value);
-  isOpen.value = false;
+  // rows.value = rows.value.filter((r: any) => r.id !== id.value);
+  // isOpen.value = false;
 
-  notification.value = { message: "Data berhasil dihapus!", type: "success" };
-  setTimeout(() => (notification.value.message = ""), 3000);
+  const res = await $fetch<any>("/users", {
+    method: "DELETE",
+    baseURL: config.public.apiHost,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: id.value,
+    }),
+    onResponseError: () => {
+      deleteFailed();
+    },
+  });
+
+  if (res.data === "OK") {
+    isOpen.value = false;
+    fetchData();
+    deleteSuccess();
+  } else {
+    deleteFailed();
+  }
 };
 
 function saveSuccess() {
@@ -332,6 +351,22 @@ function editSuccess() {
 function editFailed() {
   notification.value = {
     message: "Data gagal diubah!",
+    type: "error",
+  };
+  setTimeout(() => (notification.value.message = ""), 3000);
+}
+
+function deleteSuccess() {
+  notification.value = {
+    message: "Data berhasil dihapus!",
+    type: "success",
+  };
+  setTimeout(() => (notification.value.message = ""), 3000);
+}
+
+function deleteFailed() {
+  notification.value = {
+    message: "Data gagal dihapus!",
     type: "error",
   };
   setTimeout(() => (notification.value.message = ""), 3000);
