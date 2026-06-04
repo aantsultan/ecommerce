@@ -19,7 +19,7 @@ async function fetchData() {
     baseURL: config.public.apiHost,
     method: "GET",
   });
-  console.info(response.data);
+  console.info("categories : ", response.data);
   categories.value = response.data ?? [];
 }
 
