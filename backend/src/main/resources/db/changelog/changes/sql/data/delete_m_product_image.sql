@@ -1,0 +1,1 @@
+delete from m_product_image where product_image_id <= 5;

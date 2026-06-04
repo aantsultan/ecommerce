@@ -1,0 +1,1 @@
+delete from m_file where file_id <= 10; 

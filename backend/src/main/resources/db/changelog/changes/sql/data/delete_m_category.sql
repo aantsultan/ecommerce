@@ -1,0 +1,1 @@
+delete from m_category where category_id <= 4; 

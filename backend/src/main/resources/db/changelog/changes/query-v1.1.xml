@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="query-v1.1-create-table" author="aant">
+        <sqlFile path="sql/table/create_m_file.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <sqlFile path="sql/table/create_m_category.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <sqlFile path="sql/table/create_m_store.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <sqlFile path="sql/table/create_m_product.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <sqlFile path="sql/table/create_m_product_image.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <rollback>
+            <sqlFile path="sql/table/drop_m_product_image.sql" relativeToChangelogFile="true" splitStatements="false"/>
+            <sqlFile path="sql/table/drop_m_product.sql" relativeToChangelogFile="true" splitStatements="false"/>
+            <sqlFile path="sql/table/drop_m_store.sql" relativeToChangelogFile="true" splitStatements="false"/>
+            <sqlFile path="sql/table/drop_m_category.sql" relativeToChangelogFile="true" splitStatements="false"/>
+            <sqlFile path="sql/table/drop_m_file.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="query-v1.1-insert-table" author="aant">
+        <sqlFile path="sql/data/insert_m_file.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <sqlFile path="sql/data/insert_m_category.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <sqlFile path="sql/data/insert_m_store.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <sqlFile path="sql/data/insert_m_product.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <sqlFile path="sql/data/insert_m_product_image.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <rollback>
+            <sqlFile path="sql/data/delete_m_product_image.sql" relativeToChangelogFile="true" splitStatements="false"/>
+            <sqlFile path="sql/data/delete_m_product.sql" relativeToChangelogFile="true" splitStatements="false"/>
+            <sqlFile path="sql/data/delete_m_store.sql" relativeToChangelogFile="true" splitStatements="false"/>
+            <sqlFile path="sql/data/delete_m_category.sql" relativeToChangelogFile="true" splitStatements="false"/>
+            <sqlFile path="sql/data/delete_m_file.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

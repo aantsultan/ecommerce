@@ -10,5 +10,10 @@
         <tagDatabase tag="v1.0"/>
     </changeSet>
     <include file="changes/query-v1.0.xml" relativeToChangelogFile="true"/>
+   
+    <changeSet id="release:v1.1" author="aant">
+        <tagDatabase tag="v1.1"/>
+    </changeSet>
+    <include file="changes/query-v1.1.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

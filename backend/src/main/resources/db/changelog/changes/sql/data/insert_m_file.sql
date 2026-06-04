@@ -1,0 +1,11 @@
+insert into m_file (file_id, name, mime_type) values (1, 'FILE_CATEGORY_DUMMY01.jpg', 'image/jpg');
+insert into m_file (file_id, name, mime_type) values (2, 'FILE_CATEGORY_DUMMY02.jpg', 'image/jpg');
+insert into m_file (file_id, name, mime_type) values (3, 'FILE_CATEGORY_DUMMY03.jpg', 'image/jpg');
+insert into m_file (file_id, name, mime_type) values (4, 'FILE_CATEGORY_DUMMY04.jpg', 'image/jpg');
+insert into m_file (file_id, name, mime_type) values (5, 'FILE_STORE_DUMMY01.jpg', 'image/jpg');
+insert into m_file (file_id, name, mime_type) values (6, 'FILE_PRODUCT_DUMMY01.jpg', 'image/jpg');
+insert into m_file (file_id, name, mime_type) values (7, 'FILE_PRODUCT_DUMMY02.jpg', 'image/jpg');
+insert into m_file (file_id, name, mime_type) values (8, 'FILE_PRODUCT_DUMMY03.jpg', 'image/jpg');
+insert into m_file (file_id, name, mime_type) values (9, 'FILE_PRODUCT_DUMMY04.jpg', 'image/jpg');
+insert into m_file (file_id, name, mime_type) values (10, 'FILE_PRODUCT_DUMMY05.jpg', 'image/jpg');
+select setval('file_id_seq', (select MAX(file_id) FROM m_file));

@@ -1,0 +1,1 @@
+delete from m_product where product_id <= 4; 
