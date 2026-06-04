@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAll() {
-        List<Category> all = repositories.category.findAllWithFile();
+        List<Category> all = repositories.category.findAll();
         return all.stream().map(data -> CategoryDto.builder()
                 .id(data.getId())
                 .fileId(data.getFileId())
