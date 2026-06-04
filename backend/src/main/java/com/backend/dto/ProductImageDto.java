@@ -11,6 +11,7 @@ public class ProductImageDto {
 
     private Long id;
     private Long fileId;
+    private FileDto file;
     private String description;
 
 }

@@ -18,5 +18,5 @@ public class ProductDto {
     private String code;
     private String name;
     private BigDecimal price;
-    private List<ProductImageDto> productImages;
+    private List<ProductImageDto> productDetail;
 }

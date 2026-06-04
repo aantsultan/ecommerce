@@ -33,6 +33,10 @@ public class ProductImage implements Serializable {
     @Column(name = "file_id")
     private Long fileId;
 
+    @ManyToOne
+    @JoinColumn(name = "file_id", insertable = false, updatable = false)
+    private File file;
+
     private String description;
 
     @ManyToOne
