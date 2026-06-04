@@ -2,6 +2,7 @@ package com.backend.general;
 
 import org.springframework.stereotype.Component;
 
+import com.backend.repository.CategoryRepository;
 import com.backend.repository.FileRepository;
 import com.backend.repository.UserRepository;
 
@@ -13,5 +14,6 @@ public class Repositories {
 
     public final UserRepository user;
     public final FileRepository file;
+    public final CategoryRepository category;
 
 }
