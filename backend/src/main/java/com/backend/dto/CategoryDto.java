@@ -13,5 +13,6 @@ public class CategoryDto {
     private Long fileId;
     private String code;
     private String name;
+    private FileDto file;
 
 }

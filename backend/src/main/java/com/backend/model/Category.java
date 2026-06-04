@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +34,10 @@ public class Category implements Serializable {
 
     @Column(name = "file_id")
     private Long fileId;
+
+    @ManyToOne
+    @JoinColumn(name = "file_id", insertable = false, updatable = false)
+    private File file;
 
     private String code;
     private String name;
